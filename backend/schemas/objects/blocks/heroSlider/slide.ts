@@ -4,16 +4,35 @@ export default defineField({
   name: 'heroSlider.slide',
   title: 'Slide',
   type: 'object',
+  groups: [
+    {name: 'content', title: 'Content'},
+    {name: 'layout', title: 'Layout'},
+  ],
   fields: [
+    // content
     defineField({
       name: 'title',
       title: 'Title',
       type: 'text',
+      group: 'content',
     }),
     defineField({
-      name: 'image',
-      title: 'Image',
+      name: 'desktopImage',
+      title: 'Desktop Image',
       type: 'image',
+      group: 'content',
+    }),
+    defineField({
+      name: 'mobileImage',
+      title: 'Mobile Image',
+      type: 'image',
+      group: 'content',
+    }),
+    defineField({
+      name: 'alt',
+      title: 'Alt',
+      type: 'text',
+      group: 'content',
     }),
     defineField({
       name: 'ctas',
@@ -24,12 +43,62 @@ export default defineField({
           type: 'text',
         },
       ],
+      group: 'content',
+    }),
+    // layout
+    defineField({
+      name: 'verticalAlignment',
+      title: 'Vertical Content Alignment',
+      type: 'string',
+      options: {
+        list: [
+          {
+            title: 'Top',
+            value: 'start',
+          },
+          {
+            title: 'Center',
+            value: 'center',
+          },
+          {
+            title: 'Bottom',
+            value: 'end',
+          },
+        ],
+        layout: 'dropdown',
+      },
+      initialValue: 'center',
+      group: 'layout',
+    }),
+    defineField({
+      name: 'horizontalAlignment',
+      title: 'Horizontal Content Alignment',
+      type: 'string',
+      options: {
+        list: [
+          {
+            title: 'Left',
+            value: 'start',
+          },
+          {
+            title: 'Center',
+            value: 'center',
+          },
+          {
+            title: 'Right',
+            value: 'end',
+          },
+        ],
+        layout: 'dropdown',
+      },
+      initialValue: 'start',
+      group: 'layout',
     }),
   ],
   preview: {
     select: {
       title: 'title',
-      media: 'image',
+      media: 'desktopImage',
     },
     prepare(selection) {
       return {

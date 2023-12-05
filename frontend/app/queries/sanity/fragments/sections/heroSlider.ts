@@ -6,6 +6,10 @@ export const SECTION_HERO_SLIDER = groq`
     _type,
     title,
     ctas[],
-    image
+    desktopImage,
+    mobileImage,
+    alt,
+    verticalAlignment,
+    horizontalAlignment
   }
 `;

@@ -28,7 +28,7 @@ export default function Homepage() {
       {(page) => (
         <>
           {page?.sections && (
-            <div className="">
+            <div className="flex flex-col items-center">
               <SectionGrid sections={page.sections} />
             </div>
           )}

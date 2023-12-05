@@ -1,4 +1,6 @@
+// types
 import {SectionsType} from '~/types';
+// comps
 import Section from './Section';
 
 type Props = {
@@ -8,8 +10,8 @@ type Props = {
 const SectionGrid = ({sections}: Props) => {
   return (
     <>
-      {sections.map((section) => (
-        <Section section={section}></Section>
+      {sections.map((section, index) => (
+        <Section section={section} key={index}></Section>
       ))}
     </>
   );

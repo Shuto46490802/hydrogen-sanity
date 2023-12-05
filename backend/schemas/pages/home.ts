@@ -1,4 +1,4 @@
-import {defineConfig, defineField} from 'sanity'
+import {defineField} from 'sanity'
 
 export default {
   name: 'home',

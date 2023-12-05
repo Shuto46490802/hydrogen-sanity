@@ -1,20 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-a {
-  @apply inline-block no-underline !important;
-}
-
-.button {
-  @apply duration-300 px-3 py-3 text-base;
-}
-.button--primary {
-  @apply text-button-primary-text hover:text-button-primary-hover-text bg-button-primary-bg hover:bg-button-primary-hover-bg;
-}
-.button--secondary {
-  @apply text-button-secondary-text hover:text-button-secondary-hover-text bg-button-secondary-bg hover:bg-button-secondary-hover-bg;
-}
-
 body {
   @apply font-body text-body text-base leading-[calc(20/14)];
 }
@@ -96,8 +79,4 @@ strong {
 
 .link {
   @apply text-base underline;
-}
-
-.swiper-pagination-bullet-active {
-  @apply bg-black !important;
 }

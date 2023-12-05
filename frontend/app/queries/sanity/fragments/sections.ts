@@ -6,6 +6,8 @@ export const SECTIONS = groq`
   _key,
   _type,
   (_type == "section.heroSlider") => {
-    ${SECTION_HERO_SLIDER}
+    ${SECTION_HERO_SLIDER},
+    autoscroll,
+    scrollSpeed
   }
 `;

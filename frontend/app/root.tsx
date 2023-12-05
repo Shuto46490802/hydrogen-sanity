@@ -24,9 +24,17 @@ import type {
 import favicon from '../public/favicon.svg';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
+import swiperStyles from 'swiper/css';
+import swiperNavStyles from 'swiper/css/navigation';
+import swiperPagStyles from 'swiper/css/pagination';
+import swiperScrStyles from 'swiper/css/scrollbar';
 import {Layout} from '~/components/Layout';
 import {getPreview, PreviewProvider} from 'hydrogen-sanity';
 import {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
+import {SETTINGS_QUERY} from './queries/sanity/settings';
+import {SettingsType} from './types';
+import {useEffect} from 'react';
+import {setCssVariables} from './utils';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -53,6 +61,10 @@ export function links() {
   return [
     {rel: 'stylesheet', href: resetStyles},
     {rel: 'stylesheet', href: appStyles},
+    {rel: 'stylesheet', href: swiperStyles},
+    {rel: 'stylesheet', href: swiperNavStyles},
+    {rel: 'stylesheet', href: swiperPagStyles},
+    {rel: 'stylesheet', href: swiperScrStyles},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -71,7 +83,7 @@ export const useRootLoaderData = () => {
 };
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const {storefront, session, cart} = context;
+  const {storefront, session, cart, sanity} = context;
   const customerAccessToken = await session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
@@ -102,6 +114,10 @@ export async function loader({context}: LoaderFunctionArgs) {
 
   const preview = getPreview(context);
 
+  const themeSettings = await sanity.query<SettingsType>({
+    query: SETTINGS_QUERY,
+  });
+
   return defer(
     {
       preview,
@@ -112,6 +128,7 @@ export async function loader({context}: LoaderFunctionArgs) {
       publicStoreDomain,
       sanityProjectID: context.env.SANITY_PROJECT_ID,
       sanityDataset: context.env.SANITY_DATASET,
+      themeSettings,
     },
     {headers},
   );
@@ -120,6 +137,10 @@ export async function loader({context}: LoaderFunctionArgs) {
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    setCssVariables(data.themeSettings);
+  }, []);
 
   return (
     <html lang="en">

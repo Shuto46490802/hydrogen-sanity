@@ -1,4 +1,6 @@
+// types
 import {SectionsType} from '~/types';
+// comps
 import HeroSlider from './HeroSlider';
 
 type Props = {
@@ -8,11 +10,10 @@ type Props = {
 const Section = ({section}: Props) => {
   switch (section._type) {
     case 'section.heroSlider':
-      return <HeroSlider content={section.slide}/>;
+      return section.slide && section.slide.length ? <HeroSlider content={section.slide} autoscroll={section.autoscroll} scrollSpeed={section.scrollSpeed} /> : null;
     default:
       return null;
   }
-  return <div></div>;
 };
 
 export default Section;

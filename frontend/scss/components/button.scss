@@ -1,0 +1,11 @@
+.button {
+  @apply duration-300 px-3 py-3 text-base;
+
+  &--primary {
+    @apply text-button-primary-text hover:text-button-primary-hover-text bg-button-primary-bg hover:bg-button-primary-hover-bg;
+  }
+
+  &--secondary {
+    @apply text-button-secondary-text hover:text-button-secondary-hover-text bg-button-secondary-bg hover:bg-button-secondary-hover-bg;
+  }
+}

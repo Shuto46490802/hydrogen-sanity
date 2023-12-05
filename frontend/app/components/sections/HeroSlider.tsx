@@ -1,63 +1,146 @@
-import {Image} from '@sanity/types';
-import {useKeenSlider} from 'keen-slider/react';
-import SanityImage from '../media/SanityImage';
+// lib
 import {useMatches} from '@remix-run/react';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Pagination, Autoplay} from 'swiper/modules';
+// types
+import {Image} from '@sanity/types';
+// comps
+import SanityImage from '../media/SanityImage';
 
-type SlideType = {
+
+type SlideProps = {
   title: string;
-  image: Image;
+  mobileImage: Image;
+  desktopImage: Image;
   ctas: string[];
+  alt: string;
+  isLazyLoaded?: boolean;
+  verticalAlignment: string;
+  horizontalAlignment: string;
 };
 
-type SliderType = {
-  content: SlideType[];
+type SliderProps = {
+  content: SlideProps[];
+  autoscroll: boolean;
+  scrollSpeed: number;
+};
+
+const HeroSlider = ({content, autoscroll, scrollSpeed}: SliderProps) => {
+  return (
+    <div className="hero-slider container">
+      <Swiper
+        modules={[Pagination, Autoplay]}
+        slidesPerView={1}
+        pagination={{clickable: true}}
+        loop={true}
+        // autoplay={{
+        //   delay: autoscroll ? scrollSpeed : undefined,
+        //   disableOnInteraction: false,
+        // }}
+      >
+        {content.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <Slide {...slide} isLazyLoaded={index === 0 ? true : false} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
+};
+
+const Slide = ({
+  title,
+  desktopImage,
+  mobileImage,
+  ctas,
+  alt,
+  isLazyLoaded = false,
+  verticalAlignment,
+  horizontalAlignment,
+}: SlideProps) => {
+  let verticalPosition = '';
+  let horizontalPosition = '';
+  switch (verticalAlignment) {
+    case 'start':
+      verticalPosition = 'md:justify-start';
+      break;
+    case 'center':
+      verticalPosition = 'md:justify-center';
+      break;
+    case 'end':
+      verticalPosition = 'md:justify-end';
+      break;
+    default:
+      verticalPosition = 'md:justify-center';
+  }
+
+  switch (horizontalAlignment) {
+    case 'start':
+      horizontalPosition = 'md:items-start';
+      break;
+    case 'center':
+      horizontalPosition = 'md:items-center';
+      break;
+    case 'end':
+      horizontalPosition = 'md:items-end';
+      break;
+    default:
+      horizontalPosition = 'md:items-start';
+  }
+
+  return (
+    <>
+      <div>
+        <ImageContent
+          desktopImage={desktopImage}
+          mobileImage={mobileImage}
+          alt={alt}
+          isLazyLoaded={isLazyLoaded}
+        />
+      </div>
+      <div
+        className={`absolute w-full h-full top-0 left-0 px-[30px] md:px-[60px] py-[45px] md:py-[80px] flex flex-col justify-end ${verticalPosition} items-center ${horizontalPosition} md:max-w-[500px] text-white`}
+      >
+        <h1 className="h1 text-center md:text-left mb-6">{title}</h1>
+        <ul className="flex flex-wrap justify-center items-center gap-3">
+          {ctas.map((cta) => (
+            <li className="m-0">
+              <a className="button button--primary" href={cta}>
+                {cta}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 };
 
 type ImageContentPropsType = {
-  image: Image;
+  mobileImage: Image;
+  desktopImage: Image;
+  alt: string;
+  isLazyLoaded: boolean;
 };
 
-const HeroSlider = ({content}: SliderType) => {
-  const [ref] = useKeenSlider<HTMLDivElement>();
-  return (
-    <div ref={ref}>
-      {content.map((slide) => (
-        <Slide title={slide.title} image={slide.image} ctas={slide.ctas} />
-      ))}
-    </div>
-  );
-};
-
-const Slide = ({title, image, ctas}: SlideType) => {
-  return (
-    <div>
-      <ImageContent image={image} />
-      <h1>{title}</h1>
-      <ul>
-        {ctas.map((cta) => (
-          <li>
-            <a href={cta}>{cta}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-const ImageContent = ({image}: ImageContentPropsType) => {
+const ImageContent = ({
+  desktopImage,
+  mobileImage,
+  alt,
+  isLazyLoaded,
+}: ImageContentPropsType) => {
   const [root] = useMatches();
   const {sanityDataset, sanityProjectID} = root.data;
 
   return (
     <>
       <SanityImage
-        crop={image?.crop}
         dataset={sanityDataset}
-        hotspot={image?.hotspot}
-        layout="responsive"
         projectId={sanityProjectID}
-        sizes={['50vw, 100vw']}
-        src={image?.asset?._ref}
+        desktopImage={desktopImage}
+        mobileImage={mobileImage}
+        alt={alt}
+        isLazyLoaded={isLazyLoaded}
       />
     </>
   );
