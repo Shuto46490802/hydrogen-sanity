@@ -78,5 +78,5 @@ strong {
 }
 
 .link {
-  @apply text-base underline;
+  @apply text-base no-underline;
 }

@@ -83,14 +83,14 @@ export function HeaderMenu({
           return (
             <div>
               <NavLink
-                className="header-menu-item p-4 !flex items-center h-full"
+                className="header-menu-item p-4 !flex items-center h-full group"
                 end
                 key={item.id}
                 onClick={closeAside}
                 prefetch="intent"
                 to={url}
               >
-                {item.title}
+                <span className="pb-1 link group-hover:after:scale-x-[1]">{item.title}</span>
               </NavLink>
             </div>
           );
@@ -157,7 +157,7 @@ const AccountLink = (props: {isLoggedIn: boolean}) => {
         prefetch="intent"
         to="/account"
       >
-        <span className="hidden lg:block">
+        <span className="hidden lg:block link">
           {isLoggedIn ? 'Account' : 'Sign in/Register'}
         </span>
         <span className="icon-account block lg:hidden"></span>

@@ -1,7 +1,9 @@
 .link {
-    @apply relative;
+  @apply relative;
 
-    &:after {
-        @apply absolute content-[''];
-    }
+  &:after {
+    @apply absolute content-[''] top-full left-0 w-full h-[1px] bg-black scale-x-0 duration-100 origin-left;
+
+    will-change: transform;
+  }
 }

@@ -95,7 +95,7 @@ strong {
 }
 
 .link {
-  @apply text-base underline;
+  @apply text-base no-underline;
 }
 
 [class^=icon-],
@@ -395,6 +395,14 @@ strong {
 
 .icon-twitter:before {
   content: "\e910";
+}
+
+.link {
+  @apply relative;
+}
+.link:after {
+  @apply absolute content-[""] top-full left-0 w-full h-[1px] bg-black scale-x-0 duration-100 origin-left;
+  will-change: transform;
 }
 
 .swiper-pagination-bullet-active {
