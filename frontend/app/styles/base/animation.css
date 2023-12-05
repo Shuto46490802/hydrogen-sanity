@@ -1,0 +1,6 @@
+.link {
+  @apply relative;
+}
+.link:after {
+  @apply absolute content-[""];
+}

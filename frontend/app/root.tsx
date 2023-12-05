@@ -24,6 +24,7 @@ import type {
 import favicon from '../public/favicon.svg';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
+import fonts from '~/styles/fonts.css';
 import swiperStyles from 'swiper/css';
 import swiperNavStyles from 'swiper/css/navigation';
 import swiperPagStyles from 'swiper/css/pagination';
@@ -65,6 +66,7 @@ export function links() {
     {rel: 'stylesheet', href: swiperNavStyles},
     {rel: 'stylesheet', href: swiperPagStyles},
     {rel: 'stylesheet', href: swiperScrStyles},
+    {rel: 'stylesheet', href: fonts},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',

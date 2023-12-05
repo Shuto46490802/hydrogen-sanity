@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('fonts/icomoon.woff2?w1w6h3') format('woff2'),
+    url('fonts/icomoon.woff?w1w6h3') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}

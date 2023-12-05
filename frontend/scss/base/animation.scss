@@ -1,0 +1,7 @@
+.link {
+    @apply relative;
+
+    &:after {
+        @apply absolute content-[''];
+    }
+}

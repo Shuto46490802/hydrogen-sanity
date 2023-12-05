@@ -12,18 +12,38 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop, menu} = header;
   return (
     <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
-      </NavLink>
-      <HeaderMenu
-        menu={menu}
-        viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
-      />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      <div className="grid grid-cols-3 md:grid-cols-12 px-5 md:px-10 py-3">
+        <HeaderMenuMobileToggle />
+        <HeaderLogo shopName={shop.name} />
+        <HeaderMenu
+          menu={menu}
+          viewport="desktop"
+          primaryDomainUrl={header.shop.primaryDomain.url}
+        />
+        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      </div>
     </header>
   );
 }
+
+const HeaderLogo = (props: {shopName: string}) => {
+  const {shopName} = props;
+  const logo = shopName.split(' ');
+
+  return (
+    <div className="col-span-1 md:col-span-2 flex justify-center md:justify-start items-center">
+      <NavLink prefetch="intent" to="/" end>
+        <div className="h3 !flex flex-col items-center">
+          {logo.map((split) => (
+            <span className="leading-[18px]">
+              <strong>{split}</strong>
+            </span>
+          ))}
+        </div>
+      </NavLink>
+    </div>
+  );
+};
 
 export function HeaderMenu({
   menu,
@@ -45,42 +65,37 @@ export function HeaderMenu({
   }
 
   return (
-    <nav className={className} role="navigation">
-      {viewport === 'mobile' && (
-        <NavLink
-          end
-          onClick={closeAside}
-          prefetch="intent"
-          style={activeLinkStyle}
-          to="/"
-        >
-          Home
-        </NavLink>
-      )}
-      {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
-        if (!item.url) return null;
+    <nav
+      className={`${className} col-span-5 hidden md:flex justify-start h-full`}
+      role="navigation"
+    >
+      <div className="flex items-center gap-8">
+        {menu?.items.map((item) => {
+          if (!item.url) return null;
 
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-        return (
-          <NavLink
-            className="header-menu-item"
-            end
-            key={item.id}
-            onClick={closeAside}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
-            {item.title}
-          </NavLink>
-        );
-      })}
+          // if the url is internal, we strip the domain
+          const url =
+            item.url.includes('myshopify.com') ||
+            item.url.includes(publicStoreDomain) ||
+            item.url.includes(primaryDomainUrl)
+              ? new URL(item.url).pathname
+              : item.url;
+          return (
+            <div>
+              <NavLink
+                className="header-menu-item p-4 !flex items-center h-full"
+                end
+                key={item.id}
+                onClick={closeAside}
+                prefetch="intent"
+                to={url}
+              >
+                {item.title}
+              </NavLink>
+            </div>
+          );
+        })}
+      </div>
     </nav>
   );
 }
@@ -90,12 +105,12 @@ function HeaderCtas({
   cart,
 }: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
   return (
-    <nav className="header-ctas" role="navigation">
-      <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        {isLoggedIn ? 'Account' : 'Sign in'}
-      </NavLink>
+    <nav
+      className="header-ctas col-span-1 md:col-span-5 h-full flex justify-end gap-3"
+      role="navigation"
+    >
       <SearchToggle />
+      <AccountLink isLoggedIn={isLoggedIn} />
       <CartToggle cart={cart} />
     </nav>
   );
@@ -103,18 +118,64 @@ function HeaderCtas({
 
 function HeaderMenuMobileToggle() {
   return (
-    <a className="header-menu-mobile-toggle" href="#mobile-menu-aside">
-      <h3>☰</h3>
-    </a>
+    <div className="col-span-1 flex items-center md:!hidden">
+      <button
+        className="header-menu-mobile-toggle flex items-center"
+        type="button"
+      >
+        <span className="icon-menu text-xl"></span>
+      </button>
+    </div>
   );
 }
 
 function SearchToggle() {
-  return <a href="#search-aside">Search</a>;
+  return (
+    <div className="flex items-center">
+      <button type="button" className="p-2 block !flex items-center lg:!hidden">
+        <span className="icon-search text-xl"></span>
+      </button>
+      <div className="border-b-[2px] border-black hidden lg:flex items-center">
+        <span className="icon-search text-xl"></span>
+        <input
+          type="search"
+          placeholder="Search"
+          className="outline-none border-none"
+        />
+      </div>
+    </div>
+  );
 }
 
+const AccountLink = (props: {isLoggedIn: boolean}) => {
+  const {isLoggedIn} = props;
+
+  return (
+    <>
+      <NavLink
+        className="!flex items-center p-2 lg:p-4"
+        prefetch="intent"
+        to="/account"
+      >
+        <span className="hidden lg:block">
+          {isLoggedIn ? 'Account' : 'Sign in/Register'}
+        </span>
+        <span className="icon-account block lg:hidden"></span>
+      </NavLink>
+    </>
+  );
+};
+
 function CartBadge({count}: {count: number}) {
-  return <a href="#cart-aside">Cart {count}</a>;
+  return (
+    <a className="!flex items-center p-2 lg:p-4" href="#cart-aside">
+      <span className="icon-cart text-3xl relative">
+        <span className="absolute text-sm text-white top-1/2 left-1/2 translate-x-[-50%] translate-y-[calc(-50%+2px)]">
+          {count}
+        </span>
+      </span>
+    </a>
+  );
 }
 
 function CartToggle({cart}: Pick<HeaderProps, 'cart'>) {
@@ -128,59 +189,4 @@ function CartToggle({cart}: Pick<HeaderProps, 'cart'>) {
       </Await>
     </Suspense>
   );
-}
-
-const FALLBACK_HEADER_MENU = {
-  id: 'gid://shopify/Menu/199655587896',
-  items: [
-    {
-      id: 'gid://shopify/MenuItem/461609500728',
-      resourceId: null,
-      tags: [],
-      title: 'Collections',
-      type: 'HTTP',
-      url: '/collections',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609533496',
-      resourceId: null,
-      tags: [],
-      title: 'Blog',
-      type: 'HTTP',
-      url: '/blogs/journal',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609566264',
-      resourceId: null,
-      tags: [],
-      title: 'Policies',
-      type: 'HTTP',
-      url: '/policies',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609599032',
-      resourceId: 'gid://shopify/Page/92591030328',
-      tags: [],
-      title: 'About',
-      type: 'PAGE',
-      url: '/pages/about',
-      items: [],
-    },
-  ],
-};
-
-function activeLinkStyle({
-  isActive,
-  isPending,
-}: {
-  isActive: boolean;
-  isPending: boolean;
-}) {
-  return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'black',
-  };
 }
