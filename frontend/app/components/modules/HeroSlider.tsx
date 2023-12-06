@@ -34,10 +34,10 @@ const HeroSlider = ({content, autoscroll, scrollSpeed}: SliderProps) => {
         slidesPerView={1}
         pagination={{clickable: true}}
         loop={true}
-        // autoplay={{
-        //   delay: autoscroll ? scrollSpeed : undefined,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: autoscroll ? scrollSpeed : undefined,
+          disableOnInteraction: false,
+        }}
       >
         {content.map((slide, index) => (
           <SwiperSlide key={index}>

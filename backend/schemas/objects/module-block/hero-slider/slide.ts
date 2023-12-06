@@ -29,6 +29,12 @@ export default defineField({
       group: 'content',
     }),
     defineField({
+      name: 'alt',
+      title: 'Image Alt Text',
+      type: 'text',
+      group: 'content',
+    }),
+    defineField({
       name: 'ctas',
       title: 'CTAs',
       type: 'array',

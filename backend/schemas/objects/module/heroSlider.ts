@@ -13,6 +13,17 @@ export default defineField({
       type: 'array',
       of: [{type: 'heroSlider.slide'}],
     }),
+    defineField({
+      name: 'autoscroll',
+      title: 'Auto Scroll?',
+      type: 'boolean',
+    }),
+    defineField({
+      name: 'scrollSpeed',
+      title: 'Scroll Speed(miliseconds)',
+      type: 'number',
+      initialValue: 5000,
+    }),
   ],
   preview: {
     prepare() {
