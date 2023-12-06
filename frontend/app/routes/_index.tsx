@@ -5,7 +5,7 @@ import {Image, Money} from '@shopify/hydrogen';
 import {HOME_PAGE_QUERY} from '~/queries/sanity/home';
 import {HomepageType} from '~/types';
 import {SanityPreview} from 'hydrogen-sanity';
-import SectionGrid from '~/components/sections/SectionGrid';
+import ModuleGrid from '~/components/modules/ModuleGrid';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -22,14 +22,15 @@ export async function loader({context}: LoaderFunctionArgs) {
 
 export default function Homepage() {
   const {page} = useLoaderData<typeof loader>();
+  console.log(page)
 
   return (
     <SanityPreview data={page} query={HOME_PAGE_QUERY}>
       {(page) => (
         <>
-          {page?.sections && (
+          {page?.modules && (
             <div className="flex flex-col items-center">
-              <SectionGrid sections={page.sections} />
+              <ModuleGrid modules={page.modules} />
             </div>
           )}
         </>

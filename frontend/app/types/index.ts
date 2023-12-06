@@ -3,7 +3,7 @@ import type {Image} from '@sanity/types';
 // Pages
 export type HomepageType = {
   seo: SeoType;
-  sections?: SectionsType[];
+  modules?: ModulesType[];
 };
 
 // Settings
@@ -38,13 +38,13 @@ export interface SanityAssetImage extends Image {
   width: number;
 }
 
-// Sections
-export type SectionsType = HeroSliderType;
+// Modules
+export type ModulesType = HeroSliderType;
 // hero slider
 export type HeroSliderType = {
   _key?: string;
-  _type: 'section.heroSlider';
-  slide: HeroSlideType[];
+  _type: 'module.heroSlider';
+  slides: HeroSlideType[];
   autoscroll: boolean;
   scrollSpeed: number;
 };
