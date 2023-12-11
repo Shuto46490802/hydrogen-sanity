@@ -33,7 +33,7 @@ import {Layout} from '~/components/Layout';
 import {getPreview, PreviewProvider} from 'hydrogen-sanity';
 import {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 import {SETTINGS_QUERY} from './queries/sanity/settings';
-import {SettingsType} from './types';
+import {SanitySettingsType} from './types/sanity';
 import {useEffect} from 'react';
 import {setCssVariables} from './utils';
 
@@ -116,7 +116,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 
   const preview = getPreview(context);
 
-  const themeSettings = await sanity.query<SettingsType>({
+  const themeSettings = await sanity.query<SanitySettingsType>({
     query: SETTINGS_QUERY,
   });
 

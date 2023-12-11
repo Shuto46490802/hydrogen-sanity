@@ -75,6 +75,7 @@ import shopifyProduct from './objects/shopify/shopifyProduct'
 import shopifyProductVariant from './objects/shopify/shopifyProductVariant'
 import moduleHeroSlider from './objects/module/heroSlider'
 import blockHeroSlide from './objects/module-block/hero-slider/slide'
+import moduleFeaturedProducts from './objects/module/featuredProducts'
 
 // Collections
 import collectionGroup from './objects/collection/group'
@@ -125,7 +126,8 @@ const objects = [
   collectionGroup,
   collectionLinks,
   moduleHeroSlider,
-  blockHeroSlide
+  blockHeroSlide,
+  moduleFeaturedProducts
 ]
 
 export const schemaTypes = [...annotations, ...singletons, ...objects, ...blocks, ...documents]

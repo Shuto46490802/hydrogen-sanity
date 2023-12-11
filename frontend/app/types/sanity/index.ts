@@ -1,13 +1,13 @@
 import type {Image} from '@sanity/types';
 
 // Pages
-export type HomepageType = {
+export type SanityHomepageType = {
   seo: SeoType;
   modules?: ModulesType[];
 };
 
 // Settings
-export type SettingsType = {
+export type SanitySettingsType = {
   button: ButtonType;
 };
 
@@ -38,8 +38,19 @@ export interface SanityAssetImage extends Image {
   width: number;
 }
 
+export type SanityCollectionType = {
+  _ref: string;
+  data: {
+    descriptionHtml: string;
+    gid: string;
+    imageUrl: string;
+    slug: string;
+    title: string;
+  };
+};
+
 // Modules
-export type ModulesType = HeroSliderType;
+export type ModulesType = HeroSliderType | FeaturedProductsType;
 // hero slider
 export type HeroSliderType = {
   _key?: string;
@@ -59,4 +70,13 @@ export type HeroSlideType = {
   alt: string;
   verticalAlignment: string;
   horizontalAlignment: string;
+};
+
+// featured products
+export type FeaturedProductsType = {
+  collection: SanityCollectionType;
+  title: string;
+  subtitle: string;
+  _key: string;
+  _type: 'module.featuredProducts';
 };

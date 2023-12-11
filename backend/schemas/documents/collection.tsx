@@ -109,17 +109,6 @@ export default defineType({
       hidden: ({document}) => !document?.showHero,
       group: 'editorial',
     }),
-    // Modules
-    defineField({
-      name: 'modules',
-      title: 'Modules',
-      type: 'array',
-      description: 'Editorial modules to associate with this collection',
-      of: [
-        {type: 'module.callToAction'},
-      ],
-      group: 'editorial',
-    }),
     // Shopify collection
     defineField({
       name: 'store',
@@ -158,7 +147,7 @@ export default defineType({
     prepare(selection) {
       const {imageUrl, isDeleted, rules, title} = selection
       const ruleCount = rules?.length || 0
-
+      
       return {
         media: (
           <ShopifyDocumentStatus

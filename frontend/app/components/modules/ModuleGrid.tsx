@@ -1,5 +1,5 @@
 // types
-import {ModulesType} from '~/types';
+import {ModulesType} from '~/types/sanity';
 // comps
 import Module from './Module';
 

@@ -8,6 +8,7 @@ export const collectionUrl = (collectionId: number) => {
 }
 
 export const productUrl = (productId: number) => {
+
   if (!SHOPIFY_STORE_ID) {
     return null
   }

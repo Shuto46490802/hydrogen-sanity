@@ -80,3 +80,13 @@ strong {
 .link {
   @apply text-base no-underline;
 }
+
+.price {
+  &--wrapper {
+    @apply text-base;
+  }
+  
+  &--sale {
+    @apply text-red-700;
+  }
+}

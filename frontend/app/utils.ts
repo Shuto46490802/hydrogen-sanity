@@ -1,7 +1,14 @@
 import {useLocation} from '@remix-run/react';
 import type {SelectedOption} from '@shopify/hydrogen/storefront-api-types';
 import {useMemo} from 'react';
-import {SettingsType} from './types';
+import {
+  ModulesType,
+  SanityHomepageType,
+  SanitySettingsType,
+} from './types/sanity';
+import {COLLECTION_QUERY} from './queries/shopify/collection';
+import {Storefront} from '@shopify/hydrogen';
+import {GraphqlProduct} from './types/shopify';
 
 export function useVariantUrl(
   handle: string,
@@ -46,10 +53,10 @@ export function getVariantUrl({
   return path + (searchString ? '?' + searchParams.toString() : '');
 }
 
-export function setCssVariables(settings: SettingsType) {
+export function setCssVariables(settings: SanitySettingsType) {
   let variables = '';
   for (const key in settings) {
-    const styles = settings[key as keyof SettingsType].styles;
+    const styles = settings[key as keyof SanitySettingsType].styles;
     styles.forEach((style) => {
       const label = style.label.toLowerCase();
       for (const [key2, value] of Object.entries(style)) {
@@ -69,3 +76,52 @@ export function setCssVariables(settings: SettingsType) {
   style.type = 'text/css';
   style.appendChild(document.createTextNode(variables));
 }
+
+export const getModules = (modules: ModulesType[], storefront: Storefront) => {
+  return Promise.all(
+    modules.map(async (module) => {
+      if (module._type === 'module.featuredProducts') {
+        const {collection} = await storefront.query(COLLECTION_QUERY, {
+          variables: {
+            id: module.collection.data.gid,
+          },
+        });
+
+        collection.products = collection.products.nodes.map(
+          (product: GraphqlProduct) => transformGraphqlProduct(product),
+        );
+
+        return {
+          ...module,
+          shopifyCollection: collection,
+        };
+      }
+
+      return module;
+    }),
+  );
+};
+
+export const transformGraphqlProduct = (product: GraphqlProduct) => {
+  return {
+    description: product.description,
+    handle: product.handle,
+    id: product.id,
+    images: product.images.nodes,
+    productType: product.productType,
+    tags: product.tags,
+    title: product.title,
+    totalInventory: product.totalInventory,
+    variants: product.variants.nodes,
+    vendor: product.vendor,
+  };
+};
+
+/**
+ * A not found response. Sets the status code.
+ */
+export const notFound = (message = 'Not Found') =>
+  new Response(message, {
+    status: 404,
+    statusText: 'Not Found',
+  });

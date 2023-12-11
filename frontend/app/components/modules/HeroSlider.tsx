@@ -28,7 +28,7 @@ type SliderProps = {
 const HeroSlider = ({content, autoscroll, scrollSpeed}: SliderProps) => {
 
   return (
-    <div className="hero-slider container">
+    <section className="hero-slider container">
       <Swiper
         modules={[Pagination, Autoplay]}
         slidesPerView={1}
@@ -45,7 +45,7 @@ const HeroSlider = ({content, autoscroll, scrollSpeed}: SliderProps) => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </section>
   );
 };
 
@@ -104,8 +104,8 @@ const Slide = ({
       >
         <h1 className="h1 text-center md:text-left mb-6">{title}</h1>
         <ul className="flex flex-wrap justify-center items-center gap-3">
-          {ctas.map((cta) => (
-            <li className="m-0">
+          {ctas.map((cta, index) => (
+            <li className="m-0" key={index}>
               <a className="button button--primary" href={cta}>
                 {cta}
               </a>

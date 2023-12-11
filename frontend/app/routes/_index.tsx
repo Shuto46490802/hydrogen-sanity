@@ -3,9 +3,10 @@ import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 import {HOME_PAGE_QUERY} from '~/queries/sanity/home';
-import {HomepageType} from '~/types';
+import {SanityHomepageType} from '~/types/sanity';
 import {SanityPreview} from 'hydrogen-sanity';
 import ModuleGrid from '~/components/modules/ModuleGrid';
+import {getModules, notFound} from '~/utils';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -13,24 +14,32 @@ export const meta: MetaFunction = () => {
 
 export async function loader({context}: LoaderFunctionArgs) {
   const {storefront, sanity} = context;
-  const page = await sanity.query<HomepageType>({
+  const page = await sanity.query<SanityHomepageType>({
     query: HOME_PAGE_QUERY,
   });
 
-  return defer({page});
+  let modules = null;
+  if (page.modules) {
+    modules = await getModules(page.modules, storefront);
+  }
+
+  if (!page || !modules) {
+    throw notFound();
+  }
+
+  return defer({modules});
 }
 
 export default function Homepage() {
-  const {page} = useLoaderData<typeof loader>();
-  console.log(page)
+  const {modules} = useLoaderData<typeof loader>();
 
   return (
-    <SanityPreview data={page} query={HOME_PAGE_QUERY}>
-      {(page) => (
+    <SanityPreview data={modules} query={HOME_PAGE_QUERY}>
+      {(modules) => (
         <>
-          {page?.modules && (
+          {modules && (
             <div className="flex flex-col items-center">
-              <ModuleGrid modules={page.modules} />
+              <ModuleGrid modules={modules} />
             </div>
           )}
         </>

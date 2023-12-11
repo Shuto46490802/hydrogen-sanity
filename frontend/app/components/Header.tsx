@@ -34,8 +34,8 @@ const HeaderLogo = (props: {shopName: string}) => {
     <div className="col-span-1 md:col-span-2 flex justify-center md:justify-start items-center">
       <NavLink prefetch="intent" to="/" end>
         <div className="h3 !flex flex-col items-center">
-          {logo.map((split) => (
-            <span className="leading-[18px]">
+          {logo.map((split, index) => (
+            <span className="leading-[18px]" key={index}>
               <strong>{split}</strong>
             </span>
           ))}
@@ -70,7 +70,7 @@ export function HeaderMenu({
       role="navigation"
     >
       <div className="flex items-center gap-8">
-        {menu?.items.map((item) => {
+        {menu?.items.map((item, index) => {
           if (!item.url) return null;
 
           // if the url is internal, we strip the domain
@@ -81,7 +81,7 @@ export function HeaderMenu({
               ? new URL(item.url).pathname
               : item.url;
           return (
-            <div>
+            <div key={index}>
               <NavLink
                 className="header-menu-item p-4 !flex items-center h-full group"
                 end

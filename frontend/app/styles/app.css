@@ -98,6 +98,13 @@ strong {
   @apply text-base no-underline;
 }
 
+.price--wrapper {
+  @apply text-base;
+}
+.price--sale {
+  @apply text-red-700;
+}
+
 [class^=icon-],
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */

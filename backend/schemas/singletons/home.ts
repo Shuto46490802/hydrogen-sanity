@@ -30,6 +30,7 @@ export default defineField({
         {type: 'module.collection'},
         {type: 'module.product'},
         {type: 'module.heroSlider'},
+        {type: 'module.featuredProducts'},
       ],
       group: 'editorial',
     }),
