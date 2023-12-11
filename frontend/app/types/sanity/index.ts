@@ -64,12 +64,28 @@ export type HeroSlideType = {
   _key?: string;
   _type: 'heroSlider.slide';
   title: string;
-  ctas: string[];
+  ctas: CTAsType[];
   desktopImage: Image;
   mobileImage: Image;
   alt: string;
   verticalAlignment: string;
   horizontalAlignment: string;
+};
+
+export type CTAsType = CollectionCTAType | CustomCTAType
+
+type CollectionCTAType = {
+  _type: 'collection';
+  collection: {
+    title: string;
+    handle: string;
+  };
+};
+
+type CustomCTAType = {
+  _type: 'custom';
+  title: string;
+  handle: string;
 };
 
 // featured products

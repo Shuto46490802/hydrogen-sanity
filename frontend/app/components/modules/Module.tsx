@@ -12,14 +12,13 @@ type ModulesType = HeroSliderType | FeaturedProductsType;
 
 type FeaturedProductsType = {
   collection: SanityCollectionType;
-  shopifyCollection: ShopifyCollectionType;
+  shopifyCollection?: ShopifyCollectionType;
   subtitle: string;
   title: string;
   _type: 'module.featuredProducts';
 };
 
 const Module = ({module}: Props) => {
-  console.log(module)
 
   switch (module._type) {
     case 'module.heroSlider':
@@ -31,7 +30,7 @@ const Module = ({module}: Props) => {
         />
       ) : null;
     case 'module.featuredProducts':
-      return module && module.shopifyCollection.products.length ? (
+      return module && module.shopifyCollection?.products.length ? (
         <FeaturedProducts {...module} />
       ) : null;
     default:

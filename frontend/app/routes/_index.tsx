@@ -8,8 +8,8 @@ import {SanityPreview} from 'hydrogen-sanity';
 import ModuleGrid from '~/components/modules/ModuleGrid';
 import {getModules, notFound} from '~/utils';
 
-export const meta: MetaFunction = () => {
-  return [{title: 'Hydrogen | Home'}];
+export const meta = ({data}: {data: SanityHomepageType}) => {
+  return [{title: data.seo.title}];
 };
 
 export async function loader({context}: LoaderFunctionArgs) {
@@ -27,11 +27,12 @@ export async function loader({context}: LoaderFunctionArgs) {
     throw notFound();
   }
 
-  return defer({modules});
+  return defer({modules, seo: page.seo});
 }
 
 export default function Homepage() {
   const {modules} = useLoaderData<typeof loader>();
+  console.log(modules);
 
   return (
     <SanityPreview data={modules} query={HOME_PAGE_QUERY}>

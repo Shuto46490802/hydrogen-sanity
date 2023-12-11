@@ -1,3 +1,4 @@
+import {CogIcon} from '@sanity/icons'
 import {defineField} from 'sanity'
 
 export default defineField({
@@ -38,8 +39,37 @@ export default defineField({
       name: 'ctas',
       title: 'CTAs',
       type: 'array',
-      of: [{type: 'text'}],
-      group: 'content',
+      of: [
+        {name: 'collection', title: 'Collection', type: 'reference', to: {type: 'collection'}},
+        {
+          name: 'custom',
+          title: 'Custom',
+          type: 'object',
+          icon: CogIcon,
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Title',
+              type: 'text',
+            }),
+            defineField({
+              name: 'handle',
+              title: 'Handle',
+              type: 'slug',
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'title',
+            },
+            prepare(selection) {
+              return {
+                title: selection.title,
+              }
+            },
+          },
+        },
+      ],
     }),
 
     // Layout

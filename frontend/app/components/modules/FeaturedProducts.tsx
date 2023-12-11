@@ -10,7 +10,7 @@ type Props = {
   collection: SanityCollectionType;
   subtitle: string;
   title: string;
-  shopifyCollection: ShopifyCollectionType;
+  shopifyCollection?: ShopifyCollectionType;
 };
 
 const FeaturedProducts = ({
@@ -22,7 +22,7 @@ const FeaturedProducts = ({
   return (
     <section className="featured-products container">
       <h2 className="h2 mb-5 text-center">
-        {title ? title : shopifyCollection.title}
+        {title ? title : shopifyCollection?.title}
       </h2>
       <div>
         <Swiper
@@ -41,7 +41,7 @@ const FeaturedProducts = ({
             draggable: true,
           }}
         >
-          {shopifyCollection.products.map((product, index) => (
+          {shopifyCollection?.products.map((product, index) => (
             <SwiperSlide key={index} className='!h-auto'>
               <ProductCard product={product} />
             </SwiperSlide>

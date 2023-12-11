@@ -1,18 +1,18 @@
 // lib
-import {useMatches} from '@remix-run/react';
+import {Link, useMatches} from '@remix-run/react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Pagination, Autoplay} from 'swiper/modules';
 // types
 import {Image} from '@sanity/types';
 // comps
 import SanityImage from '../media/SanityImage';
-
+import {CTAsType} from '~/types/sanity';
 
 type SlideProps = {
   title: string;
   mobileImage: Image;
   desktopImage: Image;
-  ctas: string[];
+  ctas: CTAsType[];
   alt: string;
   isLazyLoaded?: boolean;
   verticalAlignment: string;
@@ -26,7 +26,6 @@ type SliderProps = {
 };
 
 const HeroSlider = ({content, autoscroll, scrollSpeed}: SliderProps) => {
-
   return (
     <section className="hero-slider container">
       <Swiper
@@ -89,6 +88,8 @@ const Slide = ({
       horizontalPosition = 'md:items-start';
   }
 
+  console.log(ctas);
+
   return (
     <>
       <div>
@@ -103,12 +104,21 @@ const Slide = ({
         className={`absolute w-full h-full top-0 left-0 px-[30px] md:px-[60px] py-[45px] md:py-[80px] flex flex-col justify-end ${verticalPosition} items-center ${horizontalPosition} md:max-w-[500px] text-white`}
       >
         <h1 className="h1 text-center md:text-left mb-6">{title}</h1>
-        <ul className="flex flex-wrap justify-center items-center gap-3">
+        <ul className="flex flex-wrap justify-center md:justify-start items-center gap-3">
           {ctas.map((cta, index) => (
             <li className="m-0" key={index}>
-              <a className="button button--primary" href={cta}>
-                {cta}
-              </a>
+              <Link
+                className="button button--primary"
+                to={
+                  cta._type === 'collection'
+                    ? '/collections/' + cta.collection.handle
+                    : cta.handle
+                }
+              >
+                {cta._type === 'collection'
+                  ? 'Shop ' + cta.collection.title
+                  : cta.title}
+              </Link>
             </li>
           ))}
         </ul>
